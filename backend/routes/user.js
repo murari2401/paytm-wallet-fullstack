@@ -98,6 +98,7 @@ router.put("/", authMiddleWare, async (req, res) => {
   });
 });
 
+//search other users
 router.get("/bulk", async (req, res) => {
   const filter = req.query.filter || "";
 
