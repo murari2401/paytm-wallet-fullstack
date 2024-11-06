@@ -1,7 +1,7 @@
 const express = require("express");
-const router = express.Router();
+const userRouter = express.Router();
 const zod = require("zod");
-const { User } = require("../models/db");
+const { User, Account } = require("../models/db");
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = require("../config");
 const { authMiddleWare } = require("../middlewares/middleware");
@@ -14,7 +14,7 @@ const singupSchema = zod.object({
   lastName: zod.string(),
 });
 
-router.post("/signup", async (req, res) => {
+userRouter.post("/signup", async (req, res) => {
   const { success } = singupSchema.safeParse(req.body);
   if (!success) {
     return res.status(411).json({
@@ -39,8 +39,12 @@ router.post("/signup", async (req, res) => {
     firstName,
     lastName,
   });
-  console.log(newUser);
   const userId = newUser._id;
+  const userAccount = await Account.create({
+    userId: userId,
+    balance: Math.random() * 10000 + 1,
+  });
+  console.log(newUser);
   const token = jwt.sign({ userId }, JWT_SECRET);
 
   res.json({
@@ -54,7 +58,7 @@ const signInBody = zod.object({
   username: zod.string().email(),
   password: zod.string(),
 });
-router.post("/signin", async (req, res) => {
+userRouter.post("/signin", async (req, res) => {
   const { success } = signInBody.safeParse(req.body);
   if (!success) {
     return res.status(411).json({
@@ -83,7 +87,7 @@ const updateUserSchema = zod.object({
   firstName: zod.string().optional(),
   lastName: zod.string().optional(),
 });
-router.put("/", authMiddleWare, async (req, res) => {
+userRouter.put("/", authMiddleWare, async (req, res) => {
   const { success } = updateUserSchema.safeParse(req.body);
   if (!success) {
     return res.status(411).json({
@@ -99,7 +103,7 @@ router.put("/", authMiddleWare, async (req, res) => {
 });
 
 //search other users
-router.get("/bulk", async (req, res) => {
+userRouter.get("/bulk", async (req, res) => {
   const filter = req.query.filter || "";
 
   const users = await User.find({
@@ -127,5 +131,5 @@ router.get("/bulk", async (req, res) => {
   });
 });
 module.exports = {
-  router,
+  userRouter,
 };

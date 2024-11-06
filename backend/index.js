@@ -18,7 +18,6 @@ connectToDB(process.env.MONGO_URI)
 
 app.use("/api/v1", mainRouter);
 
-
 app.listen(3000, () => {
   console.log("RUNNING");
 });
