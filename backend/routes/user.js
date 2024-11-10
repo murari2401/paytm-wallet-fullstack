@@ -111,11 +111,13 @@ userRouter.get("/bulk", async (req, res) => {
       {
         firstName: {
           $regex: filter,
+          $options: "i",
         },
       },
       {
         lastName: {
           $regex: filter,
+          $options: "i",
         },
       },
     ],

@@ -23,6 +23,7 @@ export const Signup = () => {
             }}
             placeholder="First name"
             label={"First Name"}
+            type={"text"}
           />
           <InputBox //LastNameInput
             onChange={(e) => {
@@ -30,6 +31,7 @@ export const Signup = () => {
             }}
             placeholder="Last name"
             label={"Last Name"}
+            type={"text"}
           />
           <InputBox //username input
             onChange={(e) => {
@@ -37,6 +39,7 @@ export const Signup = () => {
             }}
             placeholder="name@gmail.com"
             label={"Email"}
+            type={"text"}
           />
           <InputBox //PasswordInput
             onChange={(e) => {
@@ -44,16 +47,18 @@ export const Signup = () => {
             }}
             placeholder=""
             label={"Password"}
+            type={"password"}
           />
           <div className="pt-4">
             <Button
-              onClick={() => {
-                axios.post("http://localhost:3000/api/v1/user/signup", {
+              onClick={async () => {
+                const response = await axios.post("http://localhost:3000/api/v1/user/signup", {
                   username,
                   firstName,
                   lastName,
                   password,
                 });
+                localStorage.setItem("token", response.data.token);
               }}
               label={"Sign up"}
             />

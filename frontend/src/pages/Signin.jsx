@@ -3,7 +3,7 @@ import { Button } from "../components/Button";
 import { Heading } from "../components/Heading";
 import { InputBox } from "../components/Inputbox";
 import { SubHeading } from "../components/SubHeading";
-
+import axios from "axios";
 export const Signin = () => {
   return (
     <div className="bg-slate-300 h-screen flex justify-center">
@@ -14,7 +14,7 @@ export const Signin = () => {
           <InputBox placeholder="name@gmail.com" label={"Email"} />
           <InputBox placeholder="123456" label={"Password"} />
           <div className="pt-4">
-            <Button label={"Sign in"} />
+            <Button onClick={() => {}} label={"Sign in"} />
           </div>
           <BottomWarning
             label={"Don't have an account?"}
